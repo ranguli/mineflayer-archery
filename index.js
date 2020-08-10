@@ -1,13 +1,10 @@
-var mineflayer = require('mineflayer')
-  , vec3 = mineflayer.vec3
-  , navigatePlugin = require('mineflayer-navigate')(mineflayer)
-  , argv = require('optimist').argv
+const mineflayer = require('mineflayer')
+const Vec3 = require('vec3').Vec3
+const navigatePlugin = require('mineflayer-navigate')('mineflayer')
 
 var bot = mineflayer.createBot({
-  username: argv.username || 'archerbot',
-  password: argv.password,
-  host: argv.host,
-  port: argv.port,
+  host: "localhost",
+  port: 25565
 });
 
 var COMFORTABLE_FIRING_RADIUS = 20;
@@ -18,7 +15,7 @@ var MIN_SHOOT_INTERVAL = 100;
 var MAX_SHOOT_INTERVAL = 6000;
 
 var targetUsername = null;
-var targetVelocity = vec3(0, 0, 0);
+var targetVelocity = new Vec3(0, 0, 0);
 var lastAnnounceDate = null;
 var lastAnnounceMsg = null;
 var shootingArrow = false;
@@ -26,6 +23,7 @@ var previousPosition = null;
 var previousPositionDate = null;
 
 navigatePlugin(bot);
+
 
 bot.once('spawn', function() {
   setTimeout(moveRandomly, MIN_MOVE_INTERVAL);
@@ -137,7 +135,7 @@ function moveRandomly() {
   var angle = Math.random() * 2 * Math.PI;
   var dx = COMFORTABLE_FIRING_RADIUS * Math.cos(angle);
   var dz = COMFORTABLE_FIRING_RADIUS * Math.sin(angle);
-  var dest = vec3(entity.position.x + dx, 255, entity.position.z + dz);
+  var dest = new Vec3(entity.position.x + dx, 255, entity.position.z + dz);
   // move dest down until we hit solid land
   for (; dest.y >= 0; dest.y -= 1) {
     var block = bot.blockAt(dest);
@@ -155,8 +153,14 @@ function oldAnnouncement() {
 }
 
 function haveEquipment() {
-  var bowItem = bot.inventory.findInventoryItem(261);
-  if (bowItem) bot.equip(bowItem, 'hand');
+  const mcData = require('minecraft-data')(bot.version)
+  const bowId = mcData.itemsByName.bow.id
+  var bowItem = bot.inventory.findInventoryItem(bowId);
+
+  if (bowItem) {
+      bot.equip(bowItem, 'hand');
+  }
+
   var arrowCount = bot.inventory.count(262);
   return bowItem != null && arrowCount >= 30;
 }

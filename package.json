@@ -13,8 +13,8 @@
   "author": "Andrew Kelley <superjoe30@gmail.com>",
   "license": "BSD",
   "dependencies": {
-    "mineflayer": "0.0.22",
-    "mineflayer-navigate": "0.0.6",
-    "optimist": "~0.3.5"
+    "mineflayer": "2.27.0",
+    "mineflayer-navigate": "0.0.10",
+    "vec3": "^0.1.6"
   }
 }
