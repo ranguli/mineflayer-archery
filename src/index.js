@@ -36,9 +36,6 @@ function inject(bot) {
       bot.equip(bowItem, 'hand');
     }
 
-    if (bowItem && arrowItem) {
-      console.log('Equipped');
-    }
     return bowItem && arrowItem;
   }
 
