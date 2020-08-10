@@ -9,7 +9,6 @@
   "dependencies": {
     "minecraft-data": "^2.63.0",
     "mineflayer": "^2.27.0",
-    "mineflayer-navigate": "^0.0.10",
     "vec3": "^0.1.6"
   },
   "devDependencies": {
